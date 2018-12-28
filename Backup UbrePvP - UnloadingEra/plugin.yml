@@ -1,0 +1,39 @@
+name: UbrePvP
+version: 1.0
+author: UberTrigger
+main: UbrePvP.Main
+description: A PvP plugin made by UberTrigger.
+
+commands:
+    challenge:
+        description: Request to challenge another player.
+    accept:
+        description: Accept the challenge another player has requested.
+    deny:
+        description: Deny the challenge another player has requested.
+    clearblocks:
+        description: Clear all blocks placed in the arena.
+    tpworld:
+        description: Teleports you to world.
+    tphub:
+        description: Teleports you to hub.
+    trooper:
+        description: Receive Kit Trooper. 
+    shortbow:
+        description: Receive Kit Shortbow.
+    axeman:
+        description: Receive Kit Axeman.
+    sniper:
+        description: Receive Kit Sniper.
+    switcher:
+        description: Receive Kit Switcher.
+    pyro:
+        description: Receive Kit Pyro.
+    stomper:
+        description: Receive Kit Stomper.
+    hybrid:
+        description: Receive Kit Hybrid.
+    launcher:
+        description: Receive Kit Launcher.
+
+    
