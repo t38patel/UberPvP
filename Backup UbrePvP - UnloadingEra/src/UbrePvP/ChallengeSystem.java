@@ -19,43 +19,36 @@ public class ChallengeSystem implements CommandExecutor {
 	
 public static HashMap<String, String> Request = new HashMap<String, String>();
 	
-	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
-	  {
-	    if (cmd.getName().equalsIgnoreCase("challenge"))
-	    {
-	      if ((sender instanceof Player))
-	      {
+	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+		
+	    if (cmd.getName().equalsIgnoreCase("challenge")) {
+	    	
+	      if ((sender instanceof Player)) {
+	    	  
 	        final Player p = (Player)sender;
-	        if (Manager.isInGame.contains(p.getName()))
-	        {
+	        
+	        if (Manager.isInGame.contains(p.getName())) {
 	          p.sendMessage(ChatColor.RED + "You are already in a game.");
 	        }
-	        else if (args.length == 0)
-	        {
+	        else if (args.length == 0) {
 	          p.sendMessage(ChatColor.RED + "Please specify which player you would like to challenge.");
 	        }
-	        else
-	        {
+	        else {
 	          @SuppressWarnings("deprecation")
-			Player target = Bukkit.getPlayerExact(args[0]);
-	          if (target != null)
-	          {
-	            if ((target.getName().equals(p.getName())) && (target != null))
-	            {
+			  Player target = Bukkit.getPlayerExact(args[0]);
+	          if (target != null) {
+	            if ((target.getName().equals(p.getName())) && (target != null)) {
 	              p.sendMessage(ChatColor.RED + "You cannot challenge yourself.");
 	            }
-	            else if ((Manager.isInGame.contains(target.getName())) || (Manager.isInPreGame.contains(target.getName())))
-	            {
+	            else if ((Manager.isInGame.contains(target.getName())) || (Manager.isInPreGame.contains(target.getName()))) {
 	              p.sendMessage(ChatColor.RED + "The person who you would like to challenge is already in a game!");
 	            }
-	            else if (Request.containsKey(p.getName()))
-	            {
+	            else if (Request.containsKey(p.getName())) {
 	              if (((String)Request.get(p.getName())).equals(target.getName())) {
 	                p.sendMessage(ChatColor.RED + "You have already requested to challenge them!");
 	              }
 	            }
-	            else
-	            {
+	            else {
 	              target.sendMessage(ChatColor.DARK_GREEN + p.getName() + ChatColor.GOLD + " would like to challenge you!");
 	              target.sendMessage(ChatColor.GOLD + "Type: " + ChatColor.GREEN + ChatColor.BOLD + "/ACCEPT " + ChatColor.GOLD + "or " + 
 	                ChatColor.DARK_RED + ChatColor.BOLD + "/DENY " + ChatColor.GOLD + "then the requestor's name!");
@@ -63,8 +56,7 @@ public static HashMap<String, String> Request = new HashMap<String, String>();
 	              Request.put(p.getName(), target.getName());
 	              Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.UbrePvP, new Runnable()
 	              {
-	                public void run()
-	                {
+	                public void run() {
 	                  if (ChallengeSystem.Request.containsKey(p.getName())) {
 	                    ChallengeSystem.Request.remove(p.getName());
 	                  }
@@ -78,31 +70,27 @@ public static HashMap<String, String> Request = new HashMap<String, String>();
 	        }
 	      }
 	    }
-	    else if (cmd.getName().equalsIgnoreCase("accept"))
-	    {
-	      if ((sender instanceof Player))
-	      {
+	    else if (cmd.getName().equalsIgnoreCase("accept")) {
+	    	
+	      if ((sender instanceof Player)) {
 	        final Player p = (Player)sender;
-	        if (Manager.isInGame.contains(p.getName()))
-	        {
+	        if (Manager.isInGame.contains(p.getName())) {
 	          p.sendMessage(ChatColor.RED + "You are already in a game.");
 	        }
-	        else if (args.length == 0)
-	        {
+	        else if (args.length == 0) {
 	          p.sendMessage(ChatColor.RED + "Please specify which player you would like to accept.");
 	        }
-	        else
-	        {
+	        else {
 	          @SuppressWarnings("deprecation")
 			final Player target = Bukkit.getPlayerExact(args[0]);
 	          if (target == null) {
 	            p.sendMessage(ChatColor.RED + "'" + args[0] + "' cannot be found.");
-	          } else if ((Manager.isInGame.contains(target.getName())) || (Manager.isInPreGame.contains(target.getName()))) {
+	          } 
+	          else if ((Manager.isInGame.contains(target.getName())) || (Manager.isInPreGame.contains(target.getName()))) {
 	            p.sendMessage(ChatColor.RED + "The person who challenged you is already in a game!");
-	          } else if (Request.containsKey(target.getName()))
-	          {
-	            if (((String)Request.get(target.getName())).equals(p.getName()))
-	            {
+	          } 
+	          else if (Request.containsKey(target.getName())) {
+	            if (((String)Request.get(target.getName())).equals(p.getName())) {
 	              Bukkit.getServer().broadcastMessage(ChatColor.GREEN + "=-=-=-=-=-=-=-=-=-=-=-=-=-");
 	              Bukkit.getServer().broadcastMessage(ChatColor.GREEN + target.getName() + 
 	                ChatColor.GOLD + " has challenged " + ChatColor.GREEN + p.getName() + 
@@ -130,23 +118,19 @@ public static HashMap<String, String> Request = new HashMap<String, String>();
 	              p.sendMessage(ChatColor.GOLD + "Game starting in 15 seconds!");
 	              Bukkit.getServer().broadcastMessage(ChatColor.GREEN + "=-=-=-=-=-=-=-=-=-=-=-=-=-");
 	              
-	              Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.UbrePvP, new Runnable()
-	              {
-	                public void run()
-	                {
+	              Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.UbrePvP, new Runnable() {
+	                public void run() {
 	                  if (!Manager.Kits.containsKey(target.getName())) {
 	                    Bukkit.dispatchCommand(target, "trooper");
 	                  }
 	                  if (!Manager.Kits.containsKey(p.getName())) {
 	                    Bukkit.dispatchCommand(p, "trooper");
 	                  }
-	                  if (Manager.isInPreGame.contains(target.getName()))
-	                  {
+	                  if (Manager.isInPreGame.contains(target.getName())) {
 	                    Manager.isInPreGame.remove(target.getName());
 	                    Manager.isInGame.add(target.getName());
 	                  }
-	                  if (Manager.isInPreGame.contains(p.getName()))
-	                  {
+	                  if (Manager.isInPreGame.contains(p.getName())) {
 	                    Manager.isInPreGame.remove(p.getName());
 	                    Manager.isInGame.add(p.getName());
 	                  }
@@ -161,35 +145,27 @@ public static HashMap<String, String> Request = new HashMap<String, String>();
 	      }
 	    }
 	    else if (cmd.getName().equalsIgnoreCase("deny")) {
-	      if ((sender instanceof Player))
-	      {
+	      if ((sender instanceof Player)) {
 	        Player p = (Player)sender;
-	        if (Manager.isInGame.contains(p.getName()))
-	        {
+	        if (Manager.isInGame.contains(p.getName())) {
 	          p.sendMessage(ChatColor.RED + "You cannot do this while in a game.");
 	        }
-	        else if (args.length == 0)
-	        {
+	        else if (args.length == 0) {
 	          p.sendMessage(ChatColor.RED + "Please specify which player you would like to deny.");
 	        }
-	        else
-	        {
+	        else {
 	          @SuppressWarnings("deprecation")
-			Player target = Bukkit.getPlayerExact(args[0]);
-	          if (target == null)
-	          {
+			  Player target = Bukkit.getPlayerExact(args[0]);
+	          if (target == null) {
 	            p.sendMessage(ChatColor.RED + "'" + args[0] + "' cannot be found.");
 	          }
-	          else if ((Manager.isInGame.contains(target.getName())) || (Manager.isInPreGame.contains(target.getName())))
-	          {
+	          else if ((Manager.isInGame.contains(target.getName())) || (Manager.isInPreGame.contains(target.getName()))) {
 	            p.sendMessage(ChatColor.RED + "(The person who you denied is in a game now.)");
 	          }
-	          else if (!Request.containsKey(target.getName()))
-	          {
+	          else if (!Request.containsKey(target.getName())) {
 	            p.sendMessage(ChatColor.RED + "This person hasn't sent you a request.");
 	          }
-	          else
-	          {
+	          else {
 	            target.sendMessage(ChatColor.RED + p.getName() + ChatColor.DARK_RED + " has denied your request.");
 	            Request.remove(target.getName());
 	            p.sendMessage(ChatColor.GREEN + "You have denied this person.");

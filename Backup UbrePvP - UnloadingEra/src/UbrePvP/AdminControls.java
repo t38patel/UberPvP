@@ -14,26 +14,19 @@ public class AdminControls implements CommandExecutor {
 	World hub = Bukkit.getServer().getWorld("hub");
 	World world = Bukkit.getServer().getWorld("world");
 	
-	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
-	{
-		if (cmd.getName().equalsIgnoreCase("tpworld"))
-		{
-			if (sender instanceof Player)
-			{
+	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+		if (cmd.getName().equalsIgnoreCase("tpworld")) {
+			if (sender instanceof Player) {
 		        Player p = (Player)sender;
-		        if (p.getName().equalsIgnoreCase("____EL_UBRE____"))
-		        {
+		        if (p.getName().equalsIgnoreCase("____EL_UBRE____")) {
 		        	p.teleport(new Location(world, -635, 74, -203));
 		        	p.sendMessage(ChatColor.RED + "Teleported to 'world' successfully.");
 		        }
 			}
-		}else if (cmd.getName().equalsIgnoreCase("tphub"))
-		{
-			if (sender instanceof Player)
-			{
+		}else if (cmd.getName().equalsIgnoreCase("tphub")) {
+			if (sender instanceof Player) {
 		        Player p = (Player)sender;
-		        if (p.getName().equalsIgnoreCase("____EL_UBRE____"))
-		        {
+		        if (p.getName().equalsIgnoreCase("____EL_UBRE____")) {
 		        	p.teleport(new Location(hub, -109, 134, -157));
 		        	p.sendMessage(ChatColor.RED + "Teleported to 'hub' successfully.");
 		        }

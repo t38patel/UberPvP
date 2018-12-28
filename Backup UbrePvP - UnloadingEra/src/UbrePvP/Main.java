@@ -11,8 +11,7 @@ public class Main extends JavaPlugin implements Listener {
 	public static Plugin UbrePvP;
 	
 	@Override
-	public void onEnable() 
-	{				 
+	public void onEnable() {				 
 		UbrePvP = this;	
 		
     	Bukkit.getServer().createWorld(new WorldCreator("world"));
@@ -50,8 +49,7 @@ public class Main extends JavaPlugin implements Listener {
 		getCommand("launcher").setExecutor(new KitLauncher());
 	}	
 
-	public void onDisable() 
-	{		
+	public void onDisable() {		
 		UbrePvP = null;		
 	}
 

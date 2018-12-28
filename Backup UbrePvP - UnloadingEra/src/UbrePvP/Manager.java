@@ -47,16 +47,12 @@ public class Manager implements Listener {
 	
 	@SuppressWarnings("deprecation")
 	@EventHandler
-	public void blockbreak(BlockBreakEvent blockbreak)
-	{	    
+	public void blockbreak(BlockBreakEvent blockbreak) {	    
 	    Player breaker = blockbreak.getPlayer();
-	    if (!(isInPreGame.contains(breaker.getName())))
-	    {
-	    	if (blockbreak.getBlock().getType() == Material.GLASS || blockbreak.getBlock().getType() == Material.BEDROCK)
-		    {
+	    if (!(isInPreGame.contains(breaker.getName()))) {
+	    	if (blockbreak.getBlock().getType() == Material.GLASS || blockbreak.getBlock().getType() == Material.BEDROCK) {
 		    	blockbreak.setCancelled(true);
-		    }else if (blockbreak.getBlock().getType() == Material.WOOD)
-		    {
+		    }else if (blockbreak.getBlock().getType() == Material.WOOD) {
 			    breaker.getInventory().addItem(new ItemStack(Material.WOOD));
 			    breaker.updateInventory();
 		    }	   
@@ -64,50 +60,40 @@ public class Manager implements Listener {
 	}
 	
 	@EventHandler
-	public void weather(WeatherChangeEvent event)
-	{
+	public void weather(WeatherChangeEvent event) {
 		World w = Bukkit.getWorld("world");
-		if (w.hasStorm())
-		{
+		if (w.hasStorm()) {
 			w.setStorm(false);
-		}else if (w.isThundering())
-		{
+		}else if (w.isThundering()) {
 			w.setThundering(false);
 		}
 	}
 	
 	@EventHandler
-	public void foodchange(FoodLevelChangeEvent foodchange) 
-	{
+	public void foodchange(FoodLevelChangeEvent foodchange) {
 		foodchange.setCancelled(true);		
 	}
 
 	@EventHandler
-	public void blockplace(BlockPlaceEvent blockplace)
-	{
-	    if (isInPreGame.contains(blockplace.getPlayer().getName()))
-	    {
+	public void blockplace(BlockPlaceEvent blockplace) {
+	    if (isInPreGame.contains(blockplace.getPlayer().getName())) {
 	        blockplace.setCancelled(true);
 	    }
 	}
 	
 	@EventHandler
-	public void dropitem(PlayerDropItemEvent dropItem) 
-	{
+	public void dropitem(PlayerDropItemEvent dropItem) {
 	    dropItem.setCancelled(true);
 	}
 	
 	@EventHandler
-	public void bloodpickup(PlayerPickupItemEvent pickItem) 
-	{
+	public void bloodpickup(PlayerPickupItemEvent pickItem) {
 		pickItem.setCancelled(true);
 	}
 	
 	@EventHandler
-	public void playerMove(PlayerMoveEvent event)
-	{
-	    if (isInPreGame.contains(event.getPlayer().getName()))
-	    {
+	public void playerMove(PlayerMoveEvent event) {
+	    if (isInPreGame.contains(event.getPlayer().getName())) {
 	        event.setCancelled(true);
 	        Player mover = event.getPlayer();
 	        mover.teleport(event.getFrom());
@@ -116,8 +102,7 @@ public class Manager implements Listener {
 	
 	@EventHandler
 	public void noDmg(EntityDamageByEntityEvent event) {
-		if ((!(Kits.containsKey(event.getEntity().getName()))) || (!(Kits.containsKey(event.getDamager().getName()))))
-		{
+		if ((!(Kits.containsKey(event.getEntity().getName()))) || (!(Kits.containsKey(event.getDamager().getName())))) {
 			event.setCancelled(true);
 		}
 	}
@@ -134,17 +119,13 @@ public class Manager implements Listener {
     }
 	
     @EventHandler
-    public void playerShoot(EntityShootBowEvent event)
-    {
-        if ((event.getEntity() instanceof Player))
-        {
+    public void playerShoot(EntityShootBowEvent event) {
+        if ((event.getEntity() instanceof Player)) {
             Player shooter = (Player)event.getEntity();
-            if (isInPreGame.contains(shooter.getName())) 
-            {
+            if (isInPreGame.contains(shooter.getName())) {
                 event.setCancelled(true);
             }
-            if (event.getForce() <= 0.38D)
-            {
+            if (event.getForce() <= 0.38D) {
                 event.setCancelled(true);
                 shooter.sendMessage(ChatColor.RED + "Bow spamming is not allowed.");
             }
@@ -152,12 +133,10 @@ public class Manager implements Listener {
     }
 	
 	@EventHandler
-	public void respawn(PlayerRespawnEvent respawnEvent) 
-	{			
+	public void respawn(PlayerRespawnEvent respawnEvent) {			
 		Player respawnedPlayer = respawnEvent.getPlayer();
 		
-		for (PotionEffect effect : respawnedPlayer.getActivePotionEffects())
-		{
+		for (PotionEffect effect : respawnedPlayer.getActivePotionEffects()) {
 			respawnedPlayer.removePotionEffect(effect.getType());
 		}
 		
@@ -177,22 +156,18 @@ public class Manager implements Listener {
 	}
 	
 	@EventHandler
-	public void onDeath(PlayerDeathEvent event) 
-	{
+	public void onDeath(PlayerDeathEvent event) {
 		Player player = event.getEntity();
 		Player killer = event.getEntity().getKiller();
 		
 		player.getInventory().clear();
-		if (isInGame.contains(player.getName()))
-		{
+		if (isInGame.contains(player.getName())) {
 			isInGame.remove(player.getName());
 		}
-		if (Kits.containsKey(player.getName()))
-		{
+		if (Kits.containsKey(player.getName())) {
 			Kits.remove(player.getName());
 		}		
-		if (isInGame.contains(killer.getName()))
-		{
+		if (isInGame.contains(killer.getName())) {
 			Bukkit.getServer().broadcastMessage(ChatColor.GREEN + killer.getName() + ChatColor.GOLD
 					+ " has defeated " + ChatColor.RED + player.getName() + ChatColor.GOLD + "!");	
 			killer.getInventory().clear();
@@ -204,53 +179,42 @@ public class Manager implements Listener {
 			isInGame.remove(killer.getName());		
 		}		
 
-		if (Kits.containsKey(killer.getName()))
-		{
+		if (Kits.containsKey(killer.getName())) {
 			Kits.remove(killer.getName());
 		}
 		
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.UbrePvP, new Runnable()
-        {
-          public void run()
-          {
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.UbrePvP, new Runnable() {
+          public void run() {
       		rollback("world");
           }
         }, 30L);
 	}
 	
 	@EventHandler
-	public void leaver(PlayerQuitEvent leaveEvent) 
-	{
+	public void leaver(PlayerQuitEvent leaveEvent) {
 		Player leaver = leaveEvent.getPlayer();
 		leaver.getInventory().clear();
 		
-		if (Kits.containsKey(leaver.getName()))
-		{
+		if (Kits.containsKey(leaver.getName())) {
 			Kits.remove(leaver.getName());
 		}
 		
-		for (PotionEffect effect : leaver.getActivePotionEffects())
-		{
+		for (PotionEffect effect : leaver.getActivePotionEffects()) {
 		    leaver.removePotionEffect(effect.getType());
 		}
 		
-		if (isInGame.contains(leaver.getName()))
-		{
+		if (isInGame.contains(leaver.getName())) {
 			isInGame.remove(leaver.getName());
 		}
-		if (isInPreGame.contains(leaver.getName()))
-		{
+		if (isInPreGame.contains(leaver.getName())) {
 			isInPreGame.remove(leaver.getName());
 		}
-		if (ChallengeSystem.Request.containsKey(leaver.getName()))
-		{
+		if (ChallengeSystem.Request.containsKey(leaver.getName())) {
 			ChallengeSystem.Request.remove(leaver.getName());
 		}		
-		if (isInGame.size() == 1 || isInPreGame.size() == 1)
-		{
+		if (isInGame.size() == 1 || isInPreGame.size() == 1) {
 		    for (Player p : Bukkit.getOnlinePlayers()) {
-		        if (isInPreGame.contains(p.getName()) || isInGame.contains(p.getName()))
-		        {
+		        if (isInPreGame.contains(p.getName()) || isInGame.contains(p.getName())) {
 		            p.teleport(new Location(hub, -109, 134, -157));
 		            p.getInventory().clear();
 		            for (PotionEffect effect : p.getActivePotionEffects()) {
@@ -263,34 +227,28 @@ public class Manager implements Listener {
 		          
 		            p.getInventory().setItem(4, rules);
 		          
-		            if (isInPreGame.contains(p.getName()))
-		            {
+		            if (isInPreGame.contains(p.getName())) {
 			            isInPreGame.remove(p.getName());
 		            }
-		            if (isInGame.contains(p.getName()))
-		            {
+		            if (isInGame.contains(p.getName())) {
 			            isInGame.remove(p.getName());
 		            }
-		            if (Kits.containsKey(p.getName()))
-		            {
+		            if (Kits.containsKey(p.getName())) {
 			            Kits.remove(p.getName());
 		            }
 		        }
 		    }
 		}
 		
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.UbrePvP, new Runnable()
-        {
-          public void run()
-          {
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.UbrePvP, new Runnable() {
+          public void run() {
       		rollback("world");
           }
         }, 30L);
 	}
 	
 	@EventHandler
-	public void join(PlayerJoinEvent joinEvent) 
-	{
+	public void join(PlayerJoinEvent joinEvent) {
 		Player joiner = joinEvent.getPlayer();
 		World hub = Bukkit.getServer().getWorld("hub");
 		joiner.teleport(new Location(hub, -109, 134, -157));
@@ -316,11 +274,10 @@ public class Manager implements Listener {
 	}
 
 	public static void unloadMap(String mapname){
-        if(Bukkit.getServer().unloadWorld(Bukkit.getServer().getWorld(mapname), false))
-        {
+        if(Bukkit.getServer().unloadWorld(Bukkit.getServer().getWorld(mapname), false)) {
             Bukkit.getLogger().info("Successfully unloaded " + mapname);
-        }else
-        {
+        }
+        else {
             Bukkit.getLogger().severe("COULD NOT UNLOAD " + mapname);
         }
     }
